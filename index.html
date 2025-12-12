@@ -83,10 +83,14 @@
             ],
             colors: {
                 background: '#030712',
+                backgroundImage: '',
                 cardBackground: '#1f2937',
                 primaryColor: '#4f46e5',
                 secondaryColor: '#10b981',
                 textColor: '#f3f4f6',
+                headlineColor: '#ffffff',
+                subtitleColor: '#9ca3af',
+                tabColor: '#6366f1',
                 accentColor: '#f59e0b'
             },
             appSettings: {
@@ -391,13 +395,13 @@
         const renderColorsTab = () => {
             return `
                 <div class="space-y-4">
+                    <!-- Background Section -->
                     <div class="bg-gray-800 p-4 rounded-xl">
-                        <h3 class="text-lg font-semibold text-white mb-4">App Color Customization</h3>
-                        <p class="text-sm text-gray-400 mb-4">Customize the colors for your generated workout app</p>
+                        <h3 class="text-lg font-semibold text-white mb-4">Background</h3>
                         
                         <div class="grid grid-cols-2 gap-4">
                             <div class="space-y-2">
-                                <label class="text-sm text-gray-300 block">Background</label>
+                                <label class="text-sm text-gray-300 block">Background Color</label>
                                 <div class="flex items-center gap-2">
                                     <div class="color-picker-wrapper">
                                         <input type="color" id="color-background" value="${state.colors.background}" />
@@ -415,7 +419,72 @@
                                     <input type="text" class="bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm text-white w-24" value="${state.colors.cardBackground}" id="color-card-text" />
                                 </div>
                             </div>
+                        </div>
+                        
+                        <div class="mt-4 space-y-2">
+                            <label class="text-sm text-gray-300 block">Background Image URL (overrides color)</label>
+                            <input type="text" id="color-bgimage" value="${state.colors.backgroundImage || ''}" placeholder="https://example.com/background.jpg" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:border-indigo-500 focus:outline-none text-sm" />
+                            ${state.colors.backgroundImage ? `
+                                <div class="mt-2 relative">
+                                    <img src="${state.colors.backgroundImage}" alt="BG Preview" class="w-full h-20 object-cover rounded-lg" onerror="this.style.display='none'" />
+                                    <button id="clear-bgimage-btn" class="absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white p-1 rounded text-xs">Clear</button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                    
+                    <!-- Text Colors Section -->
+                    <div class="bg-gray-800 p-4 rounded-xl">
+                        <h3 class="text-lg font-semibold text-white mb-4">Text Colors</h3>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <label class="text-sm text-gray-300 block">Headline Color</label>
+                                <div class="flex items-center gap-2">
+                                    <div class="color-picker-wrapper">
+                                        <input type="color" id="color-headline" value="${state.colors.headlineColor}" />
+                                    </div>
+                                    <input type="text" class="bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm text-white w-24" value="${state.colors.headlineColor}" id="color-headline-text" />
+                                </div>
+                            </div>
                             
+                            <div class="space-y-2">
+                                <label class="text-sm text-gray-300 block">Body Text Color</label>
+                                <div class="flex items-center gap-2">
+                                    <div class="color-picker-wrapper">
+                                        <input type="color" id="color-text" value="${state.colors.textColor}" />
+                                    </div>
+                                    <input type="text" class="bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm text-white w-24" value="${state.colors.textColor}" id="color-text-text" />
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <label class="text-sm text-gray-300 block">Subtitle Color</label>
+                                <div class="flex items-center gap-2">
+                                    <div class="color-picker-wrapper">
+                                        <input type="color" id="color-subtitle" value="${state.colors.subtitleColor}" />
+                                    </div>
+                                    <input type="text" class="bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm text-white w-24" value="${state.colors.subtitleColor}" id="color-subtitle-text" />
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <label class="text-sm text-gray-300 block">Tab/Nav Color</label>
+                                <div class="flex items-center gap-2">
+                                    <div class="color-picker-wrapper">
+                                        <input type="color" id="color-tab" value="${state.colors.tabColor}" />
+                                    </div>
+                                    <input type="text" class="bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm text-white w-24" value="${state.colors.tabColor}" id="color-tab-text" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Accent Colors Section -->
+                    <div class="bg-gray-800 p-4 rounded-xl">
+                        <h3 class="text-lg font-semibold text-white mb-4">Accent Colors</h3>
+                        
+                        <div class="grid grid-cols-2 gap-4">
                             <div class="space-y-2">
                                 <label class="text-sm text-gray-300 block">Primary Color</label>
                                 <div class="flex items-center gap-2">
@@ -433,16 +502,6 @@
                                         <input type="color" id="color-secondary" value="${state.colors.secondaryColor}" />
                                     </div>
                                     <input type="text" class="bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm text-white w-24" value="${state.colors.secondaryColor}" id="color-secondary-text" />
-                                </div>
-                            </div>
-                            
-                            <div class="space-y-2">
-                                <label class="text-sm text-gray-300 block">Text Color</label>
-                                <div class="flex items-center gap-2">
-                                    <div class="color-picker-wrapper">
-                                        <input type="color" id="color-text" value="${state.colors.textColor}" />
-                                    </div>
-                                    <input type="text" class="bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm text-white w-24" value="${state.colors.textColor}" id="color-text-text" />
                                 </div>
                             </div>
                             
@@ -465,12 +524,14 @@
                     </div>
                     
                     <!-- Color Preview Card -->
-                    <div class="rounded-xl p-4 border border-gray-700" style="background: ${state.colors.cardBackground}">
-                        <h4 class="font-semibold mb-2" style="color: ${state.colors.textColor}">Color Preview</h4>
-                        <p class="text-sm mb-3" style="color: ${state.colors.textColor}; opacity: 0.7;">This is how your app will look with these colors.</p>
-                        <div class="flex gap-2">
+                    <div class="rounded-xl p-4 border border-gray-700" style="background: ${state.colors.backgroundImage ? `url('${state.colors.backgroundImage}') center/cover` : state.colors.cardBackground}">
+                        <h4 class="font-semibold mb-1" style="color: ${state.colors.headlineColor}">Headline Preview</h4>
+                        <p class="text-xs mb-2" style="color: ${state.colors.subtitleColor}">Subtitle text looks like this</p>
+                        <p class="text-sm mb-3" style="color: ${state.colors.textColor}">Body text for descriptions.</p>
+                        <div class="flex gap-2 flex-wrap">
                             <button class="px-3 py-1.5 rounded-lg text-sm font-medium text-white" style="background: ${state.colors.primaryColor}">Primary</button>
                             <button class="px-3 py-1.5 rounded-lg text-sm font-medium text-white" style="background: ${state.colors.secondaryColor}">Secondary</button>
+                            <button class="px-3 py-1.5 rounded-lg text-sm font-medium text-white" style="background: ${state.colors.tabColor}">Tab</button>
                             <button class="px-3 py-1.5 rounded-lg text-sm font-medium text-white" style="background: ${state.colors.accentColor}">Accent</button>
                         </div>
                     </div>
@@ -485,35 +546,39 @@
                 count: g.workouts.length + g.subGroups.reduce((sum, sg) => sum + sg.workouts.length, 0)
             }));
 
+            const bgStyle = state.colors.backgroundImage 
+                ? `background: url('${state.colors.backgroundImage}') center/cover no-repeat; background-color: ${state.colors.background};`
+                : `background: ${state.colors.background};`;
+
             return `
-                <div class="p-4" style="background: ${state.colors.background}; color: ${state.colors.textColor}; min-height: 100%;">
+                <div class="p-4" style="${bgStyle} color: ${state.colors.textColor}; min-height: 100%;">
                     <header class="py-4 mb-4 text-center">
                         ${state.appSettings.logoUrl ? `<img src="${state.appSettings.logoUrl}" alt="Logo" style="max-height: 60px; margin: 0 auto 12px auto; display: block;" />` : ''}
-                        <h1 class="text-2xl font-extrabold" style="color: ${state.colors.textColor}">${state.appSettings.appName}</h1>
-                        <p class="text-sm opacity-70">${state.appSettings.appDescription}</p>
+                        <h1 class="text-2xl font-extrabold" style="color: ${state.colors.headlineColor}">${state.appSettings.appName}</h1>
+                        <p class="text-sm" style="color: ${state.colors.subtitleColor}">${state.appSettings.appDescription}</p>
                     </header>
                     
                     <div class="space-y-3">
                         ${groups.map(group => `
-                            <div class="p-4 rounded-xl" style="background: ${state.colors.cardBackground}; border-bottom: 3px solid ${state.colors.secondaryColor};">
+                            <div class="p-4 rounded-xl" style="background: ${state.colors.cardBackground}; border-bottom: 3px solid ${state.colors.tabColor};">
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center gap-3">
-                                        <div class="p-2 rounded-lg" style="background: ${state.colors.secondaryColor}20;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" style="color: ${state.colors.secondaryColor}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg>
+                                        <div class="p-2 rounded-lg" style="background: ${state.colors.tabColor}20;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" style="color: ${state.colors.tabColor}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg>
                                         </div>
                                         <div>
-                                            <h2 class="font-bold">${group.name}</h2>
-                                            <p class="text-xs opacity-60">${group.count} Workouts</p>
+                                            <h2 class="font-bold" style="color: ${state.colors.headlineColor}">${group.name}</h2>
+                                            <p class="text-xs" style="color: ${state.colors.subtitleColor}">${group.count} Workouts</p>
                                         </div>
                                     </div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" style="color: ${state.colors.subtitleColor}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                                 </div>
                             </div>
                         `).join('')}
                     </div>
                     
                     ${groups.length === 0 ? `
-                        <div class="text-center py-8 opacity-50">
+                        <div class="text-center py-8" style="color: ${state.colors.subtitleColor}">
                             <p>No groups yet. Add a group to get started!</p>
                         </div>
                     ` : ''}
@@ -841,7 +906,7 @@
             });
 
             // Color pickers
-            ['background', 'card', 'primary', 'secondary', 'text', 'accent'].forEach(colorKey => {
+            ['background', 'card', 'primary', 'secondary', 'text', 'accent', 'headline', 'subtitle', 'tab'].forEach(colorKey => {
                 const picker = document.getElementById(`color-${colorKey}`);
                 const textInput = document.getElementById(`color-${colorKey}-text`);
                 
@@ -851,6 +916,9 @@
                                         colorKey === 'primary' ? 'primaryColor' :
                                         colorKey === 'secondary' ? 'secondaryColor' :
                                         colorKey === 'text' ? 'textColor' :
+                                        colorKey === 'headline' ? 'headlineColor' :
+                                        colorKey === 'subtitle' ? 'subtitleColor' :
+                                        colorKey === 'tab' ? 'tabColor' :
                                         colorKey === 'accent' ? 'accentColor' : 'background';
                         state.colors[stateKey] = e.target.value;
                         if (textInput) textInput.value = e.target.value;
@@ -864,6 +932,9 @@
                                         colorKey === 'primary' ? 'primaryColor' :
                                         colorKey === 'secondary' ? 'secondaryColor' :
                                         colorKey === 'text' ? 'textColor' :
+                                        colorKey === 'headline' ? 'headlineColor' :
+                                        colorKey === 'subtitle' ? 'subtitleColor' :
+                                        colorKey === 'tab' ? 'tabColor' :
                                         colorKey === 'accent' ? 'accentColor' : 'background';
                         state.colors[stateKey] = e.target.value;
                         if (picker) picker.value = e.target.value;
@@ -872,14 +943,30 @@
                 }
             });
 
+            // Background image input
+            document.getElementById('color-bgimage')?.addEventListener('input', (e) => {
+                state.colors.backgroundImage = e.target.value;
+                updatePreview();
+            });
+
+            // Clear background image
+            document.getElementById('clear-bgimage-btn')?.addEventListener('click', () => {
+                state.colors.backgroundImage = '';
+                render();
+            });
+
             // Reset colors
             document.getElementById('reset-colors-btn')?.addEventListener('click', () => {
                 state.colors = {
                     background: '#030712',
+                    backgroundImage: '',
                     cardBackground: '#1f2937',
                     primaryColor: '#4f46e5',
                     secondaryColor: '#10b981',
                     textColor: '#f3f4f6',
+                    headlineColor: '#ffffff',
+                    subtitleColor: '#9ca3af',
+                    tabColor: '#6366f1',
                     accentColor: '#f59e0b'
                 };
                 render();
@@ -1040,22 +1127,35 @@
     <style>
         :root {
             --bg-color: ${state.colors.background};
+            --bg-image: ${state.colors.backgroundImage ? `url('${state.colors.backgroundImage}')` : 'none'};
             --card-bg: ${state.colors.cardBackground};
             --primary: ${state.colors.primaryColor};
             --secondary: ${state.colors.secondaryColor};
             --text-color: ${state.colors.textColor};
+            --headline-color: ${state.colors.headlineColor};
+            --subtitle-color: ${state.colors.subtitleColor};
+            --tab-color: ${state.colors.tabColor};
             --accent: ${state.colors.accentColor};
         }
-        body { background: var(--bg-color); color: var(--text-color); }
+        body { 
+            background: var(--bg-image) center/cover no-repeat, var(--bg-color); 
+            color: var(--text-color); 
+        }
         .card-bg { background: var(--card-bg); }
         .btn-primary { background: var(--primary); }
         .btn-secondary { background: var(--secondary); }
         .border-primary { border-color: var(--primary); }
         .border-secondary { border-color: var(--secondary); }
+        .text-headline { color: var(--headline-color); }
+        .text-subtitle { color: var(--subtitle-color); }
+        .text-tab { color: var(--tab-color); }
+        .bg-tab { background: var(--tab-color); }
+        .border-tab { border-color: var(--tab-color); }
         .text-accent { color: var(--accent); }
         .big-timer { font-size: 4rem; line-height: 1; }
         .big-timer.seconds-only { font-size: 5rem; }
         .progress-circle { transition: stroke-dashoffset 0.3s ease; }
+    </style>
     </style>
 </head>
 <body class="min-h-screen">
@@ -1165,12 +1265,16 @@
                 count: WORKOUTS.filter(w => w.group.split(' > ')[0] === g).length
             }));
 
+            const bgStyle = COLORS.backgroundImage 
+                ? 'background: url(\\'' + COLORS.backgroundImage + '\\') center/cover no-repeat, ' + COLORS.background
+                : 'background: ' + COLORS.background;
+
             container.innerHTML = \`
-                <div class="min-h-screen p-4" style="background: \${COLORS.background}; color: \${COLORS.textColor};">
+                <div class="min-h-screen p-4" style="\${bgStyle}; color: \${COLORS.textColor};">
                     <header class="py-6 mb-6 text-center">
                         \${APP_LOGO ? '<img src="' + APP_LOGO + '" alt="Logo" class="h-16 mx-auto mb-4 object-contain" onerror="this.style.display=\\'none\\'" />' : ''}
-                        <h1 class="text-3xl font-extrabold">\${APP_NAME}</h1>
-                        <p class="opacity-70 mt-1">\${APP_DESC}</p>
+                        <h1 class="text-3xl font-extrabold" style="color: \${COLORS.headlineColor}">\${APP_NAME}</h1>
+                        <p class="mt-1" style="color: \${COLORS.subtitleColor}">\${APP_DESC}</p>
                     </header>
                     <div class="space-y-4" id="group-list-container"></div>
                 </div>
@@ -1181,19 +1285,19 @@
                 const button = document.createElement('button');
                 button.className = "w-full text-left p-6 rounded-2xl shadow-lg transition-all duration-300";
                 button.style.background = COLORS.cardBackground;
-                button.style.borderBottom = '4px solid ' + COLORS.secondaryColor;
+                button.style.borderBottom = '4px solid ' + COLORS.tabColor;
                 button.innerHTML = \`
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
-                            <div class="p-3 rounded-lg mr-4" style="background: \${COLORS.secondaryColor}20;">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" style="color: \${COLORS.secondaryColor}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg>
+                            <div class="p-3 rounded-lg mr-4" style="background: \${COLORS.tabColor}20;">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" style="color: \${COLORS.tabColor}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg>
                             </div>
                             <div>
-                                <h2 class="text-2xl font-bold">\${group.name}</h2>
-                                <p class="text-sm opacity-60 mt-1">\${group.count} Workouts</p>
+                                <h2 class="text-2xl font-bold" style="color: \${COLORS.headlineColor}">\${group.name}</h2>
+                                <p class="text-sm mt-1" style="color: \${COLORS.subtitleColor}">\${group.count} Workouts</p>
                             </div>
                         </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" style="color: \${COLORS.subtitleColor}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
                     </div>
                 \`;
                 button.addEventListener('click', () => navigateTo('workoutList', { groupName: group.name }));
@@ -1203,15 +1307,18 @@
 
         const renderGroupWorkouts = (container) => {
             const filteredWorkouts = WORKOUTS.filter(w => w.group.split(' > ')[0] === selectedGroupName);
+            const bgStyle = COLORS.backgroundImage 
+                ? 'background: url(\\'' + COLORS.backgroundImage + '\\') center/cover no-repeat, ' + COLORS.background
+                : 'background: ' + COLORS.background;
             
             container.innerHTML = \`
-                <div class="min-h-screen p-4" style="background: \${COLORS.background}; color: \${COLORS.textColor};">
+                <div class="min-h-screen p-4" style="\${bgStyle}; color: \${COLORS.textColor};">
                     <header class="py-6 mb-6">
-                        <button id="back-to-groups" class="flex items-center font-medium mb-6" style="color: \${COLORS.primaryColor}">
+                        <button id="back-to-groups" class="flex items-center font-medium mb-6" style="color: \${COLORS.tabColor}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg> All Groups
                         </button>
-                        <h1 class="text-3xl font-extrabold">\${selectedGroupName}</h1>
-                        <p class="opacity-70 mt-1">Select a routine from this collection.</p>
+                        <h1 class="text-3xl font-extrabold" style="color: \${COLORS.headlineColor}">\${selectedGroupName}</h1>
+                        <p class="mt-1" style="color: \${COLORS.subtitleColor}">Select a routine from this collection.</p>
                     </header>
                     <div class="space-y-4" id="workout-list-container"></div>
                 </div>
@@ -1231,13 +1338,13 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" style="color: \${COLORS.primaryColor}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.596 12.768a2 2 0 1 0 2.829-2.829l-1.768-1.767a2 2 0 0 0 2.828-2.829l-2.828-2.828a2 2 0 0 0-2.829 2.828l-1.767-1.768a2 2 0 1 0-2.829 2.829z"/><path d="m2.5 21.5 1.4-1.4"/><path d="m20.1 3.9 1.4-1.4"/><path d="M5.343 21.485a2 2 0 1 0 2.829-2.828l1.767 1.768a2 2 0 1 0 2.829-2.829l-6.364-6.364a2 2 0 1 0-2.829 2.829l1.768 1.767a2 2 0 0 0-2.828 2.829z"/><path d="m9.6 14.4 4.8-4.8"/></svg>
                         </div>
                         <div class="flex-grow">
-                            <h2 class="text-xl font-bold">\${workout.name}</h2>
-                            <p class="text-sm opacity-70 mt-1">\${workout.target}</p>
+                            <h2 class="text-xl font-bold" style="color: \${COLORS.headlineColor}">\${workout.name}</h2>
+                            <p class="text-sm mt-1" style="color: \${COLORS.subtitleColor}">\${workout.target}</p>
                             <p class="text-sm font-semibold flex items-center mt-2" style="color: \${COLORS.primaryColor}">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> \${workout.duration}
                             </p>
                         </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" style="color: \${COLORS.subtitleColor}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
                     </div>
                 \`;
                 button.addEventListener('click', () => navigateTo('detail', { workoutId: workout.id }));
